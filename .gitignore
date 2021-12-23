@@ -1,0 +1,4 @@
+__pycache__/*
+.vscode/*
+*.pyc
+run_aml.py
