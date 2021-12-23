@@ -204,6 +204,7 @@ CONFIG.OPTIMIZER.LR.NUM_WARMUP_STEPS = 1
 # ******************************************************************************
 CONFIG.DATA = edict()
 CONFIG.DATA.FRACTION = 1.0 # The labeled fraction of samples for supervised learning
+CONFIG.DATA.ADDITION_TRAINSET = False # additional traning set for finegym
 CONFIG.DATA.SAMPLING_STRATEGY = 'time_augment' # offset_uniform (for TCC), time_augment (for SimCLR)
 CONFIG.DATA.NUM_CONTEXTS = 1  # number of frames that will be embedded jointly,
 CONFIG.DATA.CONTEXT_STRIDE = 1  # stride between context frames

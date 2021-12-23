@@ -22,7 +22,7 @@ def construct_dataloader(cfg, split, mode="auto"):
                                                     shuffle=True if train_sampler is None else False,
                                                     num_workers=cfg.DATA.NUM_WORKERS, pin_memory=True, sampler=train_sampler,
                                                     drop_last=True)
-            train_eval_dataset = Finegym(cfg, split, mode="eval", sample_all=True)
+            train_eval_dataset = Finegym(cfg, split, mode="eval", sample_all=True, dataset=train_dataset.dataset)
             train_eval_sampler = torch.utils.data.distributed.DistributedSampler(train_eval_dataset) if cfg.NUM_GPUS > 1 else None
             train_eval_loader = [torch.utils.data.DataLoader(train_eval_dataset, batch_size=1, shuffle=False,
                                                     num_workers=cfg.DATA.NUM_WORKERS, pin_memory=True, sampler=train_eval_sampler)]
@@ -81,7 +81,7 @@ def construct_dataloader(cfg, split, mode="auto"):
             val_loader = torch.utils.data.DataLoader(val_dataset, batch_size=cfg.EVAL.BATCH_SIZE, shuffle=False,
                                                     num_workers=cfg.DATA.NUM_WORKERS, pin_memory=True, sampler=None,
                                                     drop_last=True)
-            val_eval_dataset = Finegym(cfg, split, mode="eval", sample_all=True)
+            val_eval_dataset = Finegym(cfg, split, mode="eval", sample_all=True, dataset=val_dataset.dataset)
             val_eval_sampler = torch.utils.data.distributed.DistributedSampler(val_eval_dataset) if cfg.NUM_GPUS > 1 else None
             val_eval_loader = [torch.utils.data.DataLoader(val_eval_dataset, batch_size=1, shuffle=False,
                                                 num_workers=cfg.DATA.NUM_WORKERS, pin_memory=True, sampler=val_eval_sampler)]

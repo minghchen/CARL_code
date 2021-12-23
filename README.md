@@ -96,7 +96,7 @@ python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datas
 python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/simclr_transformer_finegym_config.yml --logdir ~/tmp/simclr_transformer_finegym_logs
 ```
 
-
+Tips: The default number of data worker is 4, which might causes CPU overloaded for some Machines. In this case, you can set `--opt DATA.NUM_WORKERS 1`.
 
 ##### Pretraining on Kinetics400
 

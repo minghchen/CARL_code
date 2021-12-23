@@ -1,6 +1,6 @@
 # coding=utf-8
 import os
-import io
+import cv2
 import math
 import time
 from tqdm import tqdm
@@ -29,14 +29,32 @@ class Finegym(torch.utils.data.Dataset):
         self.num_contexts = cfg.DATA.NUM_CONTEXTS
         self.train_dataset = os.path.join(cfg.PATH_TO_DATASET, f"gym{cfg.EVAL.CLASS_NUM}_train_v1.0.pkl")
         self.val_dataset = os.path.join(cfg.PATH_TO_DATASET, f"gym{cfg.EVAL.CLASS_NUM}_val.pkl")
+        self.additional_dataset = os.path.join(cfg.PATH_TO_DATASET, f"additional_v1.0.pkl")
 
+        self.error_videos = []
         if dataset is None:
             if self.split == "train":
                 with open(self.train_dataset, 'rb') as f:
-                    self.dataset = pickle.load(f)
+                    dataset = pickle.load(f)
+                if cfg.DATA.ADDITION_TRAINSET:
+                    with open(self.additional_dataset, 'rb') as f:
+                        dataset.extend(pickle.load(f))
             else:
                 with open(self.val_dataset, 'rb') as f:
-                    self.dataset = pickle.load(f)
+                    dataset = pickle.load(f)
+
+            self.dataset = []
+            for data in tqdm(dataset, total=len(dataset)):
+                try:
+                    video_file = os.path.join(self.cfg.PATH_TO_DATASET, data["video_file"])
+                    video = cv2.VideoCapture(video_file)
+                    seq_len = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
+                    assert seq_len > 0
+                except:
+                    self.error_videos.append(data["video_file"])
+                else:
+                    self.dataset.append(data)
+            print(self.error_videos)
             
             logger.info(f"{len(self.dataset)} {self.split} samples of Finegym dataset have been read.")
             seq_lens = [int(data['seq_len']) for data in self.dataset]
