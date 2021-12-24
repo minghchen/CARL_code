@@ -27,18 +27,14 @@ class K400(torch.utils.data.Dataset):
             dataset = [{"video_file": row[0], "video_label": row[1]} for row in reader]
 
         self.dataset = []
-        self.error_videos = []
-        for data in tqdm(dataset, total=len(dataset)):
-            try:
-                video_file = os.path.join(self.cfg.args.workdir, data["video_file"])
-                video = cv2.VideoCapture(video_file)
-                seq_len = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-                assert seq_len > 0
-            except:
-                self.error_videos.append(data["video_file"])
-            else:
+        self.error_videos = ["Kinetics400/train/blowing out candles/4o5v7aDXU9k_000000_000010.mp4",
+                            "Kinetics400/train/marching/uLaU_15HYdo_000002_000012.mp4",
+                            "Kinetics400/train/lunge/pNvkk7VDOws_000001_000011.mp4",
+                            "Kinetics400/train/bandaging/HvaU7W635to_000853_000863.mp4"]
+        for data in dataset:
+            if data["video_file"] not in self.error_videos:
                 self.dataset.append(data)
-        print(self.error_videos)
+
         logger.info(f"{len(self.dataset)} samples of Kinetics400 dataset have been read.")
 
         # Perform data-augmentation
