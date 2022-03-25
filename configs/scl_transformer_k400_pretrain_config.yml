@@ -45,13 +45,13 @@ EVAL:
   - event_completion
   VAL_INTERVAL: 2
 IMAGE_SIZE: 224
-LOGDIR: /tmp/simclr_transformer_k400_pretrain_logs
+LOGDIR: /tmp/scl_transformer_k400_pretrain_logs
 LOGGING:
   REPORT_INTERVAL: 2000
 MODEL:
   BASE_MODEL:
     LAYER: 3
-    NETWORK: Resnet50_pretrained
+    NETWORK: Resnet50_byol
     FRAMES_PER_BATCH: 40
   EMBEDDER_MODEL:
     CAPACITY_SCALAR: 2
@@ -94,14 +94,14 @@ OPTIMIZER:
 PATH_TO_DATASET: 'penn_action'
 RNG_SEED: 1
 SHARD_ID: 0
-SIMCLR:
+SCL:
   LABEL_VARIENCE: 10.0
   POSITIVE_TYPE: gauss
-  NEGATIVE_TYPE: single_noself
-  SOFTMAX_TEMPERATURE: 1.0
+  NEGATIVE_TYPE: batch_noself
+  SOFTMAX_TEMPERATURE: 0.1
   POSITIVE_WINDOW: 5
 TRAIN:
   BATCH_SIZE: 2
   MAX_EPOCHS: 10
   NUM_FRAMES: 80
-TRAINING_ALGO: simclr
+TRAINING_ALGO: scl

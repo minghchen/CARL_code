@@ -15,6 +15,7 @@ AUGMENTATION:
 CHECKPOINT:
   SAVE_INTERVAL: 60
 DATA:
+  ADDITION_TRAINSET: false
   FRAME_LABELS: true
   NUM_CONTEXTS: 2
   CONTEXT_STRIDE: 15
@@ -24,47 +25,35 @@ DATA:
   SAMPLING_STRATEGY: offset_uniform
   CONSISTENT_VIEWS: 0.0
 DATASETS:
-- baseball_pitch
-- baseball_swing
-- bench_press
-- bowl
-- clean_and_jerk
-- golf_swing
-- jumping_jacks
-- pushup
-- pullup
-- situp
-- squat
-- tennis_forehand
-- tennis_serve
+- finegym
 EVAL:
-  BATCH_SIZE: 2
+  BATCH_SIZE: 1
   CLASSIFICATION_FRACTIONS:
   - 0.1
   - 0.5
   - 1.0
-  FRAMES_PER_BATCH: 25
+  CLASSIFICATION_LR: 50
+  CLASSIFICATION_EPOCHS: 100
+  FRAMES_PER_BATCH: 100
   KENDALLS_TAU_DISTANCE: sqeuclidean
-  KENDALLS_TAU_STRIDE: 2
+  KENDALLS_TAU_STRIDE: 5
   RETRIEVAL_KS: 
   - 5
   - 10
   - 15
-  NUM_FRAMES: 20
+  NUM_FRAMES: 40
   TASKS:
-  - kendalls_tau
-  - retrieval
   - classification
-  - event_completion
   VAL_INTERVAL: 50
+  CLASS_NUM: 99
 IMAGE_SIZE: 224
-LOGDIR: /tmp/simclr_action_logs
+LOGDIR: /tmp/scl_finegym_logs
 LOGGING:
   REPORT_INTERVAL: 20
 MODEL:
   BASE_MODEL:
     LAYER: 3
-    NETWORK: Resnet50_pretrained
+    NETWORK: Resnet50_byol
   EMBEDDER_MODEL:
     CAPACITY_SCALAR: 2
     CONV_LAYERS:
@@ -99,17 +88,17 @@ OPTIMIZER:
     FINAL_LR: 0.0
   TYPE: AdamOptimizer
   WEIGHT_DECAY: 1.0e-05
-PATH_TO_DATASET: 'penn_action'
+PATH_TO_DATASET: 'finegym'
 RNG_SEED: 1
 SHARD_ID: 0
-SIMCLR:
+SCL:
   LABEL_VARIENCE: 10.0
   POSITIVE_TYPE: gauss
   NEGATIVE_TYPE: single_noself
-  SOFTMAX_TEMPERATURE: 1.0
+  SOFTMAX_TEMPERATURE: 0.1
   POSITIVE_WINDOW: 5
 TRAIN:
-  BATCH_SIZE: 2
-  MAX_EPOCHS: 300
-  NUM_FRAMES: 20
-TRAINING_ALGO: simclr
+  BATCH_SIZE: 1
+  MAX_EPOCHS: 100
+  NUM_FRAMES: 40
+TRAINING_ALGO: scl

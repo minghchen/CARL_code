@@ -2,13 +2,13 @@
 from algos.classification import Classification
 from algos.tcc import TCC
 from algos.tcn import TCN
-from algos.simclr import SimCLR
+from algos.scl import SCL
 
 ALGO_NAME_TO_ALGO_CLASS = {
     'classification': Classification,
     'tcc': TCC,
     'tcn': TCN,
-    'simclr': SimCLR,
+    'scl': SCL,
 }
 
 def get_algo(cfg):

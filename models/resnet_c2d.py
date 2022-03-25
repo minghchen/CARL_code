@@ -125,11 +125,65 @@ class MLPHead(nn.Module):
         x = self.net(x)
         return x.view(b, l, c)
 
+def load_simclr_pretrained(pretrained_weights):
+    checkpoint = torch.load(pretrained_weights, map_location='cpu')
+    state_dict = {}
+    for key, value in checkpoint['state_dict'].items():
+        if 'num_batches_track' in key or 'momentum_encoder' in key: continue
+        if 'encoder' in key:
+            key = key.split('encoder.')[-1]
+            key = key.replace('v1.weight', 'conv1.weight')
+            key = key.replace('conconv1', 'conv1')
+            key = key.replace('running_mean', 'running_mean')
+            key = key.replace('running_var', 'running_var')
+            state_dict[key] = value
+    return state_dict
+
+def load_byol_pretrained(pretrained_weights):
+    checkpoint = torch.load(pretrained_weights, map_location='cpu')
+    state_dict = {}
+    for key, value in checkpoint['model'].items():
+        if 'encoder_k' in key: continue
+        if 'encoder' in key:
+            key = key.split('module.encoder.')[-1]
+            state_dict[key] = value
+    return state_dict
+
+def load_mocov2_pretrained(pretrained_weights):
+    checkpoint = torch.load(pretrained_weights, map_location='cpu')
+    state_dict = {}
+    for key, value in checkpoint['state_dict'].items():
+        if 'encoder_q' in key:
+            key = key.split('module.encoder_q.')[-1]
+            state_dict[key] = value
+    return state_dict
+
+import os
+def load_pretrained_resnet50(cfg, res50_model):
+    if 'simclr' in cfg.MODEL.BASE_MODEL.NETWORK:
+        # from https://github.com/PyTorchLightning/lightning-bolts
+        pretrained_weights = os.path.join(cfg.args.workdir, "pretrained_models/simclr_imagenet.ckpt")
+        state_dict = load_simclr_pretrained(pretrained_weights)
+    elif 'byol' in cfg.MODEL.BASE_MODEL.NETWORK:
+        pretrained_weights = os.path.join(cfg.args.workdir, "pretrained_models/BYOL_1000.pth")
+        state_dict = load_byol_pretrained(pretrained_weights)
+    elif 'mocov2' in cfg.MODEL.BASE_MODEL.NETWORK:
+        pretrained_weights = os.path.join(cfg.args.workdir, "pretrained_models/moco_v2_200ep_pretrain.pth.tar")
+        state_dict = load_mocov2_pretrained(pretrained_weights)
+    else:
+        pretrained_weights = os.path.join(cfg.args.workdir, "pretrained_models/resnet50-0676ba61.pth")
+        state_dict = torch.load(pretrained_weights, map_location='cpu')
+
+    msg = res50_model.load_state_dict(state_dict, strict=False)
+    logger.info(msg)
+    logger.info(f"=> loaded successfully '{pretrained_weights}'")
+
+
 class BaseModel(nn.Module):
     def __init__(self, cfg):
         super().__init__()
         self.cfg = cfg
-        res50_model = models.resnet50(pretrained=True)
+        res50_model = models.resnet50(pretrained=False)
         if cfg.MODEL.BASE_MODEL.LAYER == 3:
             self.backbone = nn.Sequential(*list(res50_model.children())[:-3]) # output of layer3: 1024x14x14
             self.res_finetune = list(res50_model.children())[-3]

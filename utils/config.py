@@ -10,7 +10,7 @@ CONFIG = edict()
 # ******************************************************************************
 
 # Directory for the experiment logs.
-CONFIG.LOGDIR = '/tmp/simclr_transformer_logs'
+CONFIG.LOGDIR = '/tmp/scl_transformer_logs'
 # Dataset for training TCC.
 # Check dataset_splits.py for full list.
 CONFIG.DATASETS = [
@@ -34,8 +34,8 @@ CONFIG.DATASETS = [
 CONFIG.SSL = True 
 # the name of dataset dir
 CONFIG.PATH_TO_DATASET = 'pouring'
-# Algorithm used for training: tcc, tcn, simclr, classification.
-CONFIG.TRAINING_ALGO = 'simclr'
+# Algorithm used for training: tcc, tcn, scl, classification.
+CONFIG.TRAINING_ALGO = 'scl'
 # Size of images/frames.
 CONFIG.IMAGE_SIZE = 224  # For ResNet50
 
@@ -103,7 +103,7 @@ CONFIG.MODEL = edict()
 CONFIG.MODEL.EMBEDDER_TYPE = 'transformer'
 
 CONFIG.MODEL.BASE_MODEL = edict()
-CONFIG.MODEL.BASE_MODEL.NETWORK = 'Resnet50_pretrained'
+CONFIG.MODEL.BASE_MODEL.NETWORK = 'Resnet50_byol'
 # 3: conv1-conv4 of resnet50 will be frozen, and conv5 will be finetuned
 CONFIG.MODEL.BASE_MODEL.LAYER = 3
 # The video will be sent to 2D resnet50 as batched frames, 
@@ -149,15 +149,15 @@ CONFIG.MODEL.PROJECTION_HIDDEN_SIZE = 512
 CONFIG.MODEL.PROJECTION_SIZE = 128
 
 # ******************************************************************************
-# SimCLR params
+# our Sequential Contrastive Loss params
 # ******************************************************************************
 # Read our CARL paper for better understanding
-CONFIG.SIMCLR = edict()
-CONFIG.SIMCLR.LABEL_VARIENCE = 10.0
-CONFIG.SIMCLR.SOFTMAX_TEMPERATURE = 0.3
-CONFIG.SIMCLR.POSITIVE_TYPE = 'gauss' # 'gauss', 'nn'
-CONFIG.SIMCLR.NEGATIVE_TYPE = 'single_noself'
-CONFIG.SIMCLR.POSITIVE_WINDOW = 5
+CONFIG.SCL = edict()
+CONFIG.SCL.LABEL_VARIENCE = 10.0
+CONFIG.SCL.SOFTMAX_TEMPERATURE = 0.1
+CONFIG.SCL.POSITIVE_TYPE = 'gauss'
+CONFIG.SCL.NEGATIVE_TYPE = 'single_noself'
+CONFIG.SCL.POSITIVE_WINDOW = 5
 
 # ******************************************************************************
 # TCC params
@@ -205,7 +205,7 @@ CONFIG.OPTIMIZER.LR.NUM_WARMUP_STEPS = 1
 CONFIG.DATA = edict()
 CONFIG.DATA.FRACTION = 1.0 # The labeled fraction of samples for supervised learning
 CONFIG.DATA.ADDITION_TRAINSET = False # additional traning set for finegym
-CONFIG.DATA.SAMPLING_STRATEGY = 'time_augment' # offset_uniform (for TCC), time_augment (for SimCLR)
+CONFIG.DATA.SAMPLING_STRATEGY = 'time_augment' # offset_uniform (for TCC), time_augment (for SCL)
 CONFIG.DATA.NUM_CONTEXTS = 1  # number of frames that will be embedded jointly,
 CONFIG.DATA.CONTEXT_STRIDE = 1  # stride between context frames
 CONFIG.DATA.SAMPLING_REGION = 1.5

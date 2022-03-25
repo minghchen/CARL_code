@@ -62,6 +62,12 @@ python dataset_preparation/finegym_process.py
 
 We trim the raw video based on the event time-stamps in `finegym_annotation_info_v1.0.json`. Each event video is standardized to 640x360 resolution and 25 fps. We train the model on the event videos containing at least one sub-action. For further research, we also provide the event videos without sub-action labeled in `additional_processed_videos`.
 
+#### Download ResNet50 pretrained with BYOL
+
+Our ResNet50 beckbone is initialized with the weights trained by BYOL.
+
+Download the pretrained weight at [pretrained_models](https://drive.google.com/drive/folders/19gA1q52VVFhhVIOyg3KO76Z9alSWU8MD?usp=sharing), and place it at `/home/username/datasets/pretrained_models`.
+
 
 
 ## Training
@@ -73,7 +79,7 @@ Check `./configs` directory to see all config settings.
 Start training, assuming your machine only have one GPUs (if you have 4 GPUs, set `--nproc_per_node 4`):
 
 ```bash
-python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/simclr_transformer_config.yml --logdir ~/tmp/simclr_transformer_logs
+python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/scl_transformer_config.yml --logdir ~/tmp/scl_transformer_logs
 ```
 
 The config can be changed by adding `--opt TRAIN.BATCH_SIZE 1 TRAIN.MAX_EPOCHS 500`
@@ -85,7 +91,7 @@ We use “automatic mixed precision training” by default, but it sometimes cau
 ##### Training on PennAction
 
 ```
-python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/simclr_transformer_action_config.yml --logdir ~/tmp/simclr_transformer_action_logs
+python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/scl_transformer_action_config.yml --logdir ~/tmp/scl_transformer_action_logs
 ```
 
 
@@ -93,17 +99,17 @@ python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datas
 ##### Training on FineGym
 
 ```
-python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/simclr_transformer_finegym_config.yml --logdir ~/tmp/simclr_transformer_finegym_logs
+python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/scl_transformer_finegym_config.yml --logdir ~/tmp/scl_transformer_finegym_logs
 ```
 
 Tips: The default number of data worker is 4, which might causes CPU overloaded for some Machines. In this case, you can set `--opt DATA.NUM_WORKERS 1`.
 
 ##### Pretraining on Kinetics400
 
-Download the dataset https://github.com/cvdfoundation/kinetics-dataset
+Download K400 dataset from https://github.com/cvdfoundation/kinetics-dataset
 
 ```
-python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/simclr_transformer_k400_pretrain_config.yml --logdir ~/tmp/simclr_transformer_k400_pretrain_logs
+python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datasets --cfg_file ./configs/scl_transformer_k400_pretrain_config.yml --logdir ~/tmp/scl_transformer_k400_pretrain_logs
 ```
 
 
@@ -112,9 +118,10 @@ python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datas
 
 We provide the checkpoints trained by our CARL method at 
 
-- [simclr_transformer_logs](https://drive.google.com/drive/folders/1N7Ez_SBgxP3rudYG9NGm5ulENWCE2E3G?usp=sharing) (for Pouring)
-- [simclr_transformer_action_logs](https://drive.google.com/drive/folders/1Cfvd928dHZDW21ECDqF8zP5_V1VGoKPh?usp=sharing) (for PennAction)
-- [simclr_transformer_finegym_logs](https://drive.google.com/drive/folders/1NhdWrL1lCMEzDKgDsHp7qbj2klIARrje?usp=sharing) (for FineGym). In this checkpoint, we also provide the extracted frame-wise representations of videos in FineGym.
+- [scl_transformer_logs](https://drive.google.com/drive/folders/1N7Ez_SBgxP3rudYG9NGm5ulENWCE2E3G?usp=sharing) (for Pouring)
+- [scl_transformer_action_logs](https://drive.google.com/drive/folders/1pa5drGRxGYQHsWYaqjE2fTfilNx67YR-?usp=sharing) (for PennAction)
+- [scl_transformer_finegym_logs](https://drive.google.com/drive/folders/1NhdWrL1lCMEzDKgDsHp7qbj2klIARrje?usp=sharing) (for FineGym). In this checkpoint, we also provide the extracted frame-wise representations of videos in FineGym.
+-  [scl_transformer_k400_pretrain_logs](https://drive.google.com/drive/folders/1dnICzBOUjGjC4S8_ZnXkibh33jXlLVoW?usp=sharing) (the model pretrained on K400 by our CARL)
 
 Place these checkpoints at `/home/username/tmp` to evaluate them.
 
@@ -123,16 +130,16 @@ Place these checkpoints at `/home/username/tmp` to evaluate them.
 Start evaluation.
 
 ```bash
-python -m torch.distributed.launch --nproc_per_node 1 evaluate.py --workdir ~/datasets --cfg_file ./configs/simclr_transformer_config.yml --logdir ~/tmp/simclr_transformer_logs
+python -m torch.distributed.launch --nproc_per_node 1 evaluate.py --workdir ~/datasets --cfg_file ./configs/scl_transformer_config.yml --logdir ~/tmp/scl_transformer_logs
 ```
 
 Tensorboard.
 
 ```bash
-tensorboard --logdir=~/tmp/simclr_transformer_logs
+tensorboard --logdir=~/tmp/scl_transformer_logs
 ```
 
-The video file of video alignment have already generated at `/home/username/tmp/simclr_transformer_logs`
+The video file of video alignment have already generated at `/home/username/tmp/scl_transformer_logs`
 
 
 

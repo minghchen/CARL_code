@@ -51,7 +51,7 @@ LOGGING:
 MODEL:
   BASE_MODEL:
     LAYER: 3
-    NETWORK: Resnet50_pretrained
+    NETWORK: Resnet50_byol
   CONVGRU_EMBEDDER_MODEL:
     CONV_LAYERS:
     - &id001

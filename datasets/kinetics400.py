@@ -88,7 +88,7 @@ class K400(torch.utils.data.Dataset):
             num_valid = min(seq_len, num_frames)
             expand_ratio = np.random.uniform(low=1.0, high=self.cfg.DATA.SAMPLING_REGION) if self.cfg.DATA.SAMPLING_REGION>1 else 1.0
 
-            block_size = math.ceil(expand_ratio*num_valid)
+            block_size = math.ceil(expand_ratio*seq_len)
             if pre_steps is not None and self.cfg.DATA.CONSISTENT_OFFSET != 0:
                 shift = int((1-self.cfg.DATA.CONSISTENT_OFFSET)*num_valid)
                 offset = np.random.randint(low=max(0, min(seq_len-block_size, pre_offset-shift)), high=max(1, min(seq_len-block_size+1, pre_offset+shift+1)))

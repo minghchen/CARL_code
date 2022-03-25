@@ -1,3 +1,9 @@
+'''
+Date: 2021-12-14 19:30:02
+LastEditors: Minghao Chen
+LastEditTime: 2022-03-24 19:57:16
+FilePath: /CARL_code/algos/scl.py
+'''
 # coding=utf-8
 import torch
 import torch.nn.functional as F
@@ -9,15 +15,15 @@ def safe_div(a, b):
     out[torch.isnan(out)] = 0
     return out
 
-class SimCLR(object):
+class SCL(object):
     def __init__(self, cfg):
         self.cfg = cfg
-        self.positive_type = cfg.SIMCLR.POSITIVE_TYPE
-        self.negative_type = cfg.SIMCLR.NEGATIVE_TYPE
-        self.temperature = cfg.SIMCLR.SOFTMAX_TEMPERATURE
-        self.label_varience = cfg.SIMCLR.LABEL_VARIENCE
+        self.positive_type = cfg.SCL.POSITIVE_TYPE
+        self.negative_type = cfg.SCL.NEGATIVE_TYPE
+        self.temperature = cfg.SCL.SOFTMAX_TEMPERATURE
+        self.label_varience = cfg.SCL.LABEL_VARIENCE
         self.embedding_size = cfg.MODEL.EMBEDDER_MODEL.EMBEDDING_SIZE
-        self.positive_window = cfg.SIMCLR.POSITIVE_WINDOW
+        self.positive_window = cfg.SCL.POSITIVE_WINDOW
 
     def compute_loss(self, model, videos, seq_lens, chosen_steps, video_masks=None, training=True):
         """One pass through the model.
@@ -75,10 +81,7 @@ class SimCLR(object):
 
         # positive weight
         label = torch.zeros_like(logits)
-        if "nn" in self.positive_type:
-            label.scatter_(1, nn.unsqueeze(-1), 1)
-            label[(distence>self.positive_window)] = 0
-        elif "gauss" in self.positive_type:
+        if self.positive_type == "gauss":
             pos_weight = torch.exp(-torch.square(distence)/(2*self.label_varience)).type_as(logits)
             # according to three sigma law, we can ignore the distence further than three sigma.
             # it may avoid the numerical unstablity and keep the performance.
