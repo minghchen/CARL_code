@@ -1,7 +1,6 @@
 # Frame-wise Action Representations for Long Videos via Sequence Contrastive Learning
 
 **Pytorch** code for Frame-wise Action Representations for Long Videos via Sequence Contrastive Learning, CVPR2022.
-
 ![pennaction_alignment](./pennaction_alignment.gif)
 
 ## Requirements
