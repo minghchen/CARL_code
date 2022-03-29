@@ -4,7 +4,7 @@
 
 ![Framework](./Framework.png)
 
-![pennaction_alignment](./pennaction_alignment.gif)
+<div align=center>![pennaction_alignment](./pennaction_alignment.gif)
 
 ## Requirements
 
