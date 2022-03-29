@@ -120,7 +120,7 @@ We provide the checkpoints trained by our CARL method at
 
 - [scl_transformer_logs](https://drive.google.com/drive/folders/1N7Ez_SBgxP3rudYG9NGm5ulENWCE2E3G?usp=sharing) (for Pouring)
 - [scl_transformer_action_logs](https://drive.google.com/drive/folders/1pa5drGRxGYQHsWYaqjE2fTfilNx67YR-?usp=sharing) (for PennAction)
-- [scl_transformer_finegym_logs](https://drive.google.com/drive/folders/1NhdWrL1lCMEzDKgDsHp7qbj2klIARrje?usp=sharing) (for FineGym). In this checkpoint, we also provide the extracted frame-wise representations of videos in FineGym.
+- [scl_transformer_finegym_logs](https://drive.google.com/drive/folders/102XwQcpc7T6QgeGp8NoiYq40uwMVFG6C?usp=sharing) (for FineGym). In this checkpoint, we also provide the extracted frame-wise representations of videos in FineGym.
 -  [scl_transformer_k400_pretrain_logs](https://drive.google.com/drive/folders/1dnICzBOUjGjC4S8_ZnXkibh33jXlLVoW?usp=sharing) (the model pretrained on K400 by our CARL)
 
 Place these checkpoints at `/home/username/tmp` to evaluate them.
@@ -145,9 +145,14 @@ The video file of video alignment have already generated at `/home/username/tmp/
 
 ## Citation
 
-
-
-
+```
+@inproceedings{chen2022framewise,
+      title={Frame-wise Action Representations for Long Videos via Sequence Contrastive Learning}, 
+      author={Minghao Chen and Fangyun Wei and Chong Li and Deng Cai},
+      booktitle={CVPR},
+      year={2022}
+}
+```
 
 
 
