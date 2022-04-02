@@ -66,7 +66,7 @@ We trim the raw video based on the event time-stamps in `finegym_annotation_info
 
 Our ResNet50 beckbone is initialized with the weights trained by BYOL.
 
-Download the pretrained weight at [pretrained_models](https://drive.google.com/drive/folders/19gA1q52VVFhhVIOyg3KO76Z9alSWU8MD?usp=sharing), and place it at `/home/username/datasets/pretrained_models`.
+Download the pretrained weight at [pretrained_models](https://drive.google.com/drive/folders/1VwC4x5xj4Ho3bnh9wZZx--iYhIUguR-q?usp=sharing), and place it at `/home/username/datasets/pretrained_models`.
 
 
 
@@ -118,10 +118,10 @@ python -m torch.distributed.launch --nproc_per_node 1 train.py --workdir ~/datas
 
 We provide the checkpoints trained by our CARL method at 
 
-- [scl_transformer_logs](https://drive.google.com/drive/folders/1N7Ez_SBgxP3rudYG9NGm5ulENWCE2E3G?usp=sharing) (for Pouring)
-- [scl_transformer_action_logs](https://drive.google.com/drive/folders/1pa5drGRxGYQHsWYaqjE2fTfilNx67YR-?usp=sharing) (for PennAction)
-- [scl_transformer_finegym_logs](https://drive.google.com/drive/folders/102XwQcpc7T6QgeGp8NoiYq40uwMVFG6C?usp=sharing) (for FineGym). In this checkpoint, we also provide the extracted frame-wise representations of videos in FineGym.
--  [scl_transformer_k400_pretrain_logs](https://drive.google.com/drive/folders/1dnICzBOUjGjC4S8_ZnXkibh33jXlLVoW?usp=sharing) (the model pretrained on K400 by our CARL)
+- [scl_transformer_logs](https://drive.google.com/drive/folders/163NvBvfb0_HyciMzqFuPCugN1F3oci7k?usp=sharing) (for Pouring)
+- [scl_transformer_action_logs](https://drive.google.com/drive/folders/1RXD5Vl8hlsBPpiCaSIRlxEFUohPFCLUG?usp=sharing) (for PennAction)
+- [scl_transformer_finegym_logs](https://drive.google.com/drive/folders/1XCxwo9KTXJBG3LfxQwikguLYOI6v-SHw?usp=sharing) (for FineGym). In this checkpoint, we also provide the extracted frame-wise representations of videos in FineGym.
+-  [scl_transformer_k400_pretrain_logs](https://drive.google.com/drive/folders/1EYrpweUetE9I1oaia2qkhq2B7gITpR77?usp=sharing) (the model pretrained on K400 by our CARL)
 
 Place these checkpoints at `/home/username/tmp` to evaluate them.
 
