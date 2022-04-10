@@ -152,8 +152,6 @@ def evaluate():
     cfg.PATH_TO_DATASET = os.path.join(args.workdir, cfg.PATH_TO_DATASET)
     cfg.NUM_GPUS = torch.cuda.device_count()
     cfg.args = args
-    if args.logdir is not None:
-        cfg.LOGDIR = os.path.join(args.logroot, args.logdir)
 
     torch.distributed.init_process_group(backend='nccl', init_method='env://')
     # distributed logging and ignore warning message

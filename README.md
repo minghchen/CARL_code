@@ -32,8 +32,8 @@ mkdir /home/username/datasets
 
 #### Download pre-processed datasets
 
-- Download the Pouring dataset at [pouring](https://drive.google.com/drive/folders/1UIhHFVcUXL9CnKleB559_hnaphT524fF?usp=sharing) 
-- Download the PennAction dataset at [penn_action](https://drive.google.com/drive/folders/1YO1BP8MCxtnWT8U2oMcdZOzN3KG7HwX8?usp=sharing) 
+- Download the Pouring dataset at [pouring](https://drive.google.com/drive/folders/1hvA4bDqPnxjiVM4c4mxm-UPOuO1lAVxW?usp=sharing) 
+- Download the PennAction dataset at [penn_action](https://drive.google.com/drive/folders/1hPbkKSSM5NoQKKzvAr2bHDp-pCHZpnVj?usp=sharing) 
 - Download the FineGym dataset at [finegym](https://drive.google.com/drive/folders/1XOIy_6qtTo5MEecaWsi8X59p9BqLzmag?usp=sharing) 
 
 #### (Optionally) Pre-process datasets by yourself
