@@ -36,6 +36,10 @@ mkdir /home/username/datasets
 - Download the PennAction dataset at [penn_action](https://drive.google.com/drive/folders/1hPbkKSSM5NoQKKzvAr2bHDp-pCHZpnVj?usp=sharing) 
 - Download the FineGym dataset at [finegym](https://drive.google.com/drive/folders/1XOIy_6qtTo5MEecaWsi8X59p9BqLzmag?usp=sharing) 
 
+BaiduCloud: https://pan.baidu.com/s/1Vu9Qkiei-O10tcdCJAwaHA  password: 7rbo
+
+(Due to my limited storage, the link for finegym on google drive is expired. Only BaiduCloud link is avaliable now.)
+
 #### (Optionally) Pre-process datasets by yourself
 
 Download Pouring using the script
