@@ -18,6 +18,7 @@ from evaluation import get_tasks
 from visualize_alignment import create_video, create_single_video, create_multiple_video
 from visualize_retrieval import create_retrieval_video
 
+# comment 4
 logger = logging.get_logger(__name__)
 
 def get_embeddings_dataset(cfg, model, data_loader):

@@ -15,6 +15,7 @@ matplotlib.use('Agg')
 from matplotlib.animation import FuncAnimation  # pylint: disable=g-import-not-at-top
 import matplotlib.pyplot as plt
 
+# comment 3
 logger = logging.get_logger(__name__)
 
 EPSILON = 1e-7
